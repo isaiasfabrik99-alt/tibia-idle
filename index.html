@@ -2,11 +2,11 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Tibia Idle RPG</title>
+  <title>Tibia Idle RPG - Classic Sprites</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
     body {
-      background-color: #0c0d10;
+      background-color: #0b0c0e;
       color: #dfdfdf;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       height: 100vh;
@@ -15,8 +15,8 @@
       overflow: hidden;
     }
     header {
-      background: #15161b;
-      border-bottom: 2px solid #2d2f36;
+      background: #14151a;
+      border-bottom: 2px solid #282a33;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -31,65 +31,79 @@
       transition: color 0.15s;
     }
     .nav-links span:hover { color: #ffd700; }
-    .gold-display { color: #f4c430; font-weight: bold; }
+    .gold-display { color: #f4c430; font-weight: bold; display: flex; align-items: center; gap: 6px; }
+
     .main-layout {
       display: grid;
       grid-template-columns: 240px 1fr 280px;
       height: calc(100vh - 42px);
       gap: 4px;
-      background: #090a0c;
+      background: #08090b;
     }
+
     .sidebar-left {
-      background: #14151a;
-      border-right: 2px solid #20222a;
+      background: #121317;
+      border-right: 2px solid #1f2129;
       padding: 12px;
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
     .card-box {
-      background: #1b1c23;
-      border: 1px solid #2c2e38;
+      background: #181920;
+      border: 1px solid #282a35;
       border-radius: 4px;
       padding: 10px;
     }
     .metric-title { font-size: 11px; text-transform: uppercase; color: #8e9099; }
     .metric-value { font-size: 18px; font-weight: bold; color: #4ade80; margin-top: 4px; }
+
     .arena-container {
       display: flex;
       flex-direction: column;
-      background: #101115;
+      background: #0d0e12;
       position: relative;
     }
     .battle-canvas-wrapper {
       flex: 1;
       position: relative;
-      background: #16181f radial-gradient(#20232d 15%, transparent 16%) 0 0;
-      background-size: 32px 32px;
+      /* Textura de piso subterrâneo estilo Tibia */
+      background-color: #1e1b18;
+      background-image: 
+        linear-gradient(335deg, rgba(0,0,0,0.5) 23px, transparent 23px),
+        linear-gradient(155deg, rgba(0,0,0,0.5) 23px, transparent 23px),
+        linear-gradient(335deg, rgba(0,0,0,0.4) 23px, transparent 23px),
+        linear-gradient(155deg, rgba(0,0,0,0.4) 23px, transparent 23px);
+      background-size: 58px 58px;
+      background-position: 0px 2px, 4px 35px, 29px 31px, 34px 6px;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      border: 2px solid #24221f;
     }
     #battleCanvas { width: 100%; height: 100%; image-rendering: pixelated; }
+
     .bottom-panel {
       height: 170px;
-      background: #14151a;
-      border-top: 2px solid #242630;
+      background: #121317;
+      border-top: 2px solid #1f2129;
       display: grid;
       grid-template-columns: 240px 1fr;
     }
     .vitals-box {
       padding: 12px;
-      border-right: 1px solid #22242c;
+      border-right: 1px solid #1f2129;
       display: flex;
       flex-direction: column;
       justify-content: center;
       gap: 8px;
     }
-    .bar-container { background: #282a36; border-radius: 3px; height: 18px; position: relative; overflow: hidden; }
-    .bar-fill-hp { background: #ef4444; height: 100%; width: 100%; transition: width 0.2s; }
-    .bar-fill-mp { background: #3b82f6; height: 100%; width: 100%; transition: width 0.2s; }
+    .bar-container { background: #22242e; border: 1px solid #363948; border-radius: 3px; height: 18px; position: relative; overflow: hidden; }
+    .bar-fill-hp { background: linear-gradient(90deg, #b91c1c, #ef4444); height: 100%; width: 100%; transition: width 0.2s; }
+    .bar-fill-mp { background: linear-gradient(90deg, #1d4ed8, #3b82f6); height: 100%; width: 100%; transition: width 0.2s; }
+    .bar-text { position: absolute; top: 1px; width: 100%; text-align: center; font-size: 11px; font-weight: bold; text-shadow: 1px 1px 2px #000; }
+
     .chat-box {
       display: flex;
       flex-direction: column;
@@ -99,9 +113,10 @@
     .chat-logs { flex: 1; overflow-y: auto; color: #a1a1aa; font-family: monospace; line-height: 1.5; }
     .log-loot { color: #facc15; }
     .log-exp { color: #60a5fa; }
+
     .sidebar-right {
-      background: #14151a;
-      border-left: 2px solid #20222a;
+      background: #121317;
+      border-left: 2px solid #1f2129;
       padding: 12px;
       display: flex;
       flex-direction: column;
@@ -116,46 +131,53 @@
       margin: 6px 0;
     }
     .equip-slot {
-      height: 48px;
-      background: #1f2029;
-      border: 1px solid #363945;
+      height: 52px;
+      background: #191b22;
+      border: 1px solid #2e313e;
       border-radius: 4px;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       font-size: 10px;
-      color: #5d6173;
+      color: #717688;
       text-align: center;
       padding: 2px;
+      position: relative;
     }
-    .active-equip { border-color: #ffd700; color: #ffd700; font-weight: bold; }
+    .active-equip { border-color: #d4af37; color: #f3cf65; box-shadow: inset 0 0 6px rgba(212,175,55,0.2); }
+    .slot-icon { width: 32px; height: 32px; image-rendering: pixelated; margin-bottom: 2px; }
+
     .backpack-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 4px;
-      background: #1a1b22;
+      background: #16171d;
       padding: 8px;
       border-radius: 4px;
-      border: 1px solid #2b2d38;
+      border: 1px solid #282a35;
       min-height: 140px;
     }
     .bp-slot {
       aspect-ratio: 1;
-      background: #232530;
-      border: 1px solid #323544;
+      background: #1d1f27;
+      border: 1px solid #2b2e3c;
       border-radius: 3px;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-size: 10px;
+      font-size: 9px;
       cursor: pointer;
       text-align: center;
       padding: 2px;
     }
-    .bp-slot:hover { border-color: #ffd700; }
+    .bp-slot:hover { border-color: #ffd700; background: #262934; }
+    .bp-slot img { width: 28px; height: 28px; image-rendering: pixelated; }
+
     .btn-action {
-      background: #2b2e3a;
-      border: 1px solid #4a4e61;
+      background: #252834;
+      border: 1px solid #3e4356;
       color: #fff;
       padding: 9px;
       border-radius: 4px;
@@ -163,7 +185,8 @@
       font-weight: bold;
       font-size: 12px;
     }
-    .btn-action:hover { background: #3d4253; border-color: #ffd700; }
+    .btn-action:hover { background: #353a4c; border-color: #ffd700; }
+
     .modal-overlay {
       display: none;
       position: fixed;
@@ -174,10 +197,10 @@
       z-index: 1000;
     }
     .modal-card {
-      background: #181920;
+      background: #16181f;
       border: 2px solid #ffd700;
       border-radius: 6px;
-      width: 600px;
+      width: 580px;
       max-width: 90vw;
       max-height: 80vh;
       display: flex;
@@ -185,8 +208,8 @@
     }
     .modal-header {
       padding: 12px 16px;
-      background: #20222a;
-      border-bottom: 1px solid #323544;
+      background: #1e202a;
+      border-bottom: 1px solid #2e313e;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -194,8 +217,8 @@
     .modal-body { padding: 16px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 10px; }
     .btn-close { background: none; border: none; color: #fff; font-size: 16px; cursor: pointer; }
     .hunt-card {
-      background: #22242e;
-      border: 1px solid #363947;
+      background: #1d202a;
+      border: 1px solid #2f3343;
       padding: 12px;
       border-radius: 4px;
       cursor: pointer;
@@ -203,10 +226,12 @@
       justify-content: space-between;
       align-items: center;
     }
-    .hunt-card:hover { border-color: #4ade80; background: #282b37; }
+    .hunt-card:hover { border-color: #4ade80; background: #252936; }
   </style>
 </head>
 <body>
+
+  <!-- Top Bar -->
   <header>
     <div class="nav-links">
       <span onclick="openModal('database')">BIBLIOTECA</span>
@@ -215,10 +240,14 @@
       <span onclick="openModal('hunts')">CAÇADAS</span>
       <span onclick="openModal('lootFilter')">LOOT</span>
     </div>
-    <div class="gold-display">GPS: <span id="goldVal">1.258.892</span></div>
+    <div class="gold-display">
+      <svg width="14" height="14" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="#facc15" stroke="#b45309" stroke-width="2"/><text x="8" y="11" font-size="8" font-weight="bold" text-anchor="middle" fill="#78350f">G</text></svg>
+      GPS: <span id="goldVal">1.258.892</span>
+    </div>
   </header>
 
   <div class="main-layout">
+    <!-- Left Stats Panel -->
     <aside class="sidebar-left">
       <div class="card-box">
         <div class="metric-title">Tempo de Caçada</div>
@@ -237,9 +266,10 @@
         <div id="currentHuntName" style="font-weight: bold; color: #60a5fa; margin-top:4px;">Scarab Cave</div>
       </div>
       <button class="btn-action" onclick="openModal('hunts')">TROCAR CAÇADA</button>
-      <button class="btn-action" style="background:#4b1e1e;" onclick="resetHunt()">RESETAR SESSÃO</button>
+      <button class="btn-action" style="background:#521c1c;" onclick="resetHunt()">RESETAR SESSÃO</button>
     </aside>
 
+    <!-- Center Arena -->
     <main class="arena-container">
       <div class="battle-canvas-wrapper">
         <canvas id="battleCanvas"></canvas>
@@ -247,36 +277,58 @@
 
       <div class="bottom-panel">
         <div class="vitals-box">
-          <div style="font-size:11px;">HP: <span id="hpText">1200 / 1200</span></div>
+          <div style="font-size:11px; display:flex; justify-content:space-between;"><span>HP</span><span id="hpText">1200 / 1200</span></div>
           <div class="bar-container"><div class="bar-fill-hp" id="hpBar"></div></div>
-          <div style="font-size:11px;">MANA: <span id="mpText">850 / 850</span></div>
+          <div style="font-size:11px; display:flex; justify-content:space-between; margin-top:4px;"><span>MANA</span><span id="mpText">850 / 850</span></div>
           <div class="bar-container"><div class="bar-fill-mp" id="mpBar"></div></div>
         </div>
         <div class="chat-box">
           <div class="chat-logs" id="serverLog">
-            <div>[Servidor] Bem-vindo ao Tibia Idle! Caçada iniciada.</div>
+            <div>[Servidor] Tibia Idle inicializado. Caçada ativa!</div>
           </div>
         </div>
       </div>
     </main>
 
+    <!-- Right Equipment & Backpack Panel -->
     <aside class="sidebar-right">
       <div style="text-align:center;">
-        <h3>Paladino (Nível <span id="playerLvl">145</span>)</h3>
+        <h3 style="color:#ffd700;">Paladino (Nível <span id="playerLvl">145</span>)</h3>
         <small style="color: #9ca3af;">EXP: <span id="playerExp">24.218.790</span></small>
       </div>
 
-      <div class="metric-title" style="margin-top:6px;">Equipamentos</div>
+      <div class="metric-title">Equipamentos</div>
       <div class="equip-grid">
         <div class="equip-slot" id="slot-amulet">Amulet</div>
-        <div class="equip-slot active-equip" id="slot-helmet">Royal Helmet</div>
-        <div class="equip-slot" id="slot-backpack">Backpack</div>
-        <div class="equip-slot active-equip" id="slot-weapon">Warsinger Bow</div>
-        <div class="equip-slot active-equip" id="slot-armor">DSM</div>
-        <div class="equip-slot active-equip" id="slot-ammo">Crystalline Arrow</div>
+        <div class="equip-slot active-equip" id="slot-helmet">
+          <svg class="slot-icon" viewBox="0 0 32 32"><path d="M7 16 C7 7 25 7 25 16 L25 24 L21 21 L16 23 L11 21 L7 24 Z" fill="#d97706" stroke="#fbbf24" stroke-width="1.5"/><circle cx="16" cy="13" r="2.5" fill="#dc2626"/></svg>
+          Royal Helm
+        </div>
+        <div class="equip-slot" id="slot-backpack">
+          <svg class="slot-icon" viewBox="0 0 32 32"><rect x="6" y="9" width="20" height="18" rx="3" fill="#78350f" stroke="#b45309" stroke-width="1.5"/><rect x="10" y="6" width="12" height="5" rx="2" fill="#92400e"/></svg>
+          Backpack
+        </div>
+        <div class="equip-slot active-equip" id="slot-weapon">
+          <svg class="slot-icon" viewBox="0 0 32 32"><path d="M8 6 Q20 16 8 26 M8 6 L8 26" fill="none" stroke="#22c55e" stroke-width="2.5"/><line x1="8" y1="16" x2="22" y2="16" stroke="#facc15" stroke-width="1.5"/></svg>
+          Bow
+        </div>
+        <div class="equip-slot active-equip" id="slot-armor">
+          <svg class="slot-icon" viewBox="0 0 32 32"><path d="M10 6 L16 4 L22 6 L25 14 L21 27 L11 27 L7 14 Z" fill="#15803d" stroke="#4ade80" stroke-width="1.5"/><circle cx="16" cy="15" r="3" fill="#fbbf24"/></svg>
+          DSM
+        </div>
+        <div class="equip-slot active-equip" id="slot-ammo">
+          <svg class="slot-icon" viewBox="0 0 32 32"><line x1="6" y1="26" x2="24" y2="8" stroke="#38bdf8" stroke-width="2.5"/><polygon points="26,6 20,8 24,12" fill="#0284c7"/></svg>
+          Arrows
+        </div>
         <div class="equip-slot" id="slot-ring">Ring</div>
-        <div class="equip-slot active-equip" id="slot-legs">Yalahari Legs</div>
-        <div class="equip-slot active-equip" id="slot-boots">BOH</div>
+        <div class="equip-slot active-equip" id="slot-legs">
+          <svg class="slot-icon" viewBox="0 0 32 32"><path d="M8 6 L24 6 L23 26 L18 26 L16 14 L14 26 L9 26 Z" fill="#334155" stroke="#94a3b8" stroke-width="1.5"/></svg>
+          Legs
+        </div>
+        <div class="equip-slot active-equip" id="slot-boots">
+          <svg class="slot-icon" viewBox="0 0 32 32"><path d="M8 8 L15 8 L15 20 L23 21 L23 26 L8 26 Z" fill="#9333ea" stroke="#c084fc" stroke-width="1.5"/></svg>
+          BOH
+        </div>
       </div>
 
       <div class="metric-title">Mochila (<span id="bpCount">0</span>/20)</div>
@@ -284,10 +336,11 @@
     </aside>
   </div>
 
+  <!-- Modal Caçadas -->
   <div class="modal-overlay" id="gameModal">
     <div class="modal-card">
       <div class="modal-header">
-        <h3 id="modalTitle">Selecionar Caçada</h3>
+        <h3 id="modalTitle" style="color:#ffd700;">Selecionar Caçada</h3>
         <button class="btn-close" onclick="closeModal()">✕</button>
       </div>
       <div class="modal-body" id="modalContent"></div>
@@ -295,49 +348,71 @@
   </div>
 
   <script>
+    // Sprites gerados em Pixel Art
+    const SPRITES = {
+      player: createSVGImage('<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 32 32"><circle cx="16" cy="7" r="4" fill="#fed7aa"/><path d="M12 12 L20 12 L22 23 L10 23 Z" fill="#2563eb" stroke="#1d4ed8"/><path d="M11 23 L11 29 L14 29 L14 23 M18 23 L18 29 L21 29 L21 23" fill="#1e293b"/><path d="M10 6 C10 3 22 3 22 6 L22 9 L10 9 Z" fill="#b45309"/><rect x="22" y="10" width="3" height="14" fill="#16a34a"/></svg>'),
+      
+      scarab: createSVGImage('<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 32 32"><ellipse cx="16" cy="17" rx="8" ry="10" fill="#d97706" stroke="#78350f" stroke-width="1.5"/><circle cx="16" cy="7" r="3.5" fill="#b45309"/><line x1="16" y1="7" x2="16" y2="27" stroke="#78350f" stroke-width="1.5"/><line x1="8" y1="12" x2="4" y2="8" stroke="#78350f" stroke-width="2"/><line x1="24" y1="12" x2="28" y2="8" stroke="#78350f" stroke-width="2"/><line x1="8" y1="18" x2="3" y2="18" stroke="#78350f" stroke-width="2"/><line x1="24" y1="18" x2="29" y2="18" stroke="#78350f" stroke-width="2"/></svg>'),
+      
+      ancient_scarab: createSVGImage('<svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 32 32"><ellipse cx="16" cy="17" rx="10" ry="11" fill="#92400e" stroke="#451a03" stroke-width="2"/><circle cx="16" cy="6" r="4" fill="#78350f"/><polygon points="12,2 14,5 10,5" fill="#f59e0b"/><polygon points="20,2 18,5 22,5" fill="#f59e0b"/><line x1="16" y1="6" x2="16" y2="28" stroke="#451a03" stroke-width="2"/><path d="M7 10 L2 5 M25 10 L30 5 M6 18 L1 18 M26 18 L31 18 M7 24 L2 28 M25 24 L30 28" stroke="#451a03" stroke-width="2.2"/></svg>'),
+      
+      dragon: createSVGImage('<svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 32 32"><path d="M9 19 Q16 11 25 17 Q20 28 11 26 Z" fill="#15803d" stroke="#166534" stroke-width="1.5"/><polygon points="24,14 31,11 27,18" fill="#16a34a"/><polygon points="14,9 18,4 21,9" fill="#22c55e"/><circle cx="27" cy="13" r="1.5" fill="#facc15"/><path d="M7 23 L2 26 L6 27 Z" fill="#166534"/></svg>'),
+      
+      dragon_lord: createSVGImage('<svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 32 32"><path d="M8 18 Q16 9 26 16 Q21 29 10 27 Z" fill="#b91c1c" stroke="#7f1d1d" stroke-width="1.8"/><polygon points="25,13 32,10 28,18" fill="#dc2626"/><polygon points="13,8 18,3 22,8" fill="#ef4444"/><polygon points="7,12 11,6 14,12" fill="#ef4444"/><circle cx="28" cy="12" r="1.8" fill="#fbbf24"/><circle cx="28" cy="12" r="0.8" fill="#000"/><path d="M6 24 L1 27 L5 29 Z" fill="#7f1d1d"/></svg>'),
+      
+      demon: createSVGImage('<svg xmlns="http://www.w3.org/2000/svg" width="54" height="54" viewBox="0 0 32 32"><path d="M10 11 L22 11 L24 26 L8 26 Z" fill="#991b1b" stroke="#450a0a" stroke-width="2"/><path d="M8 11 Q4 3 11 7 M24 11 Q28 3 21 7" fill="#450a0a" stroke="#450a0a" stroke-width="2.5"/><circle cx="12" cy="16" r="2" fill="#facc15"/><circle cx="20" cy="16" r="2" fill="#facc15"/><polygon points="16,21 14,19 18,19" fill="#000"/><path d="M4 14 Q1 20 6 25 M28 14 Q31 20 26 25" stroke="#7f1d1d" stroke-width="2.5" fill="none"/></svg>'),
+
+      behemoth: createSVGImage('<svg xmlns="http://www.w3.org/2000/svg" width="54" height="54" viewBox="0 0 32 32"><ellipse cx="16" cy="17" rx="11" ry="11" fill="#573419" stroke="#331c0a" stroke-width="2"/><polygon points="9,6 6,1 12,5" fill="#fef08a"/><polygon points="23,6 26,1 20,5" fill="#fef08a"/><circle cx="12" cy="14" r="1.5" fill="#ef4444"/><circle cx="20" cy="14" r="1.5" fill="#ef4444"/><rect x="13" y="18" width="6" height="3" fill="#000"/></svg>')
+    };
+
+    function createSVGImage(svgString) {
+      const img = new Image();
+      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgString);
+      return img;
+    }
+
+    // Itens & Caçadas
     const MONSTERS_DATABASE = {
       scarab_cave: {
         name: "Scarab Cave",
         minLvl: 40,
         monsters: [
-          { id: "scarab", name: "Scarab", hp: 320, maxHp: 320, exp: 120, minGold: 20, maxGold: 60, color: "#d97706", loot: ["Small Emerald", "Scarab Pincer"] },
-          { id: "ancient_scarab", name: "Ancient Scarab", hp: 1000, maxHp: 1000, exp: 720, minGold: 80, maxGold: 210, color: "#b45309", loot: ["Ancient Amulet", "Plate Armor", "Small Amethyst"] },
-          { id: "larva", name: "Larva", hp: 70, maxHp: 70, exp: 44, minGold: 5, maxGold: 18, color: "#ca8a04", loot: ["Meat"] }
+          { id: "scarab", name: "Scarab", hp: 320, maxHp: 320, exp: 120, minGold: 20, maxGold: 60, spriteKey: "scarab", loot: ["Small Emerald", "Scarab Pincer"] },
+          { id: "ancient_scarab", name: "Ancient Scarab", hp: 1000, maxHp: 1000, exp: 720, minGold: 80, maxGold: 210, spriteKey: "ancient_scarab", loot: ["Ancient Amulet", "Plate Armor", "Small Amethyst"] }
         ]
       },
       dragon_lair: {
         name: "Dragon Lair",
         minLvl: 70,
         monsters: [
-          { id: "dragon", name: "Dragon", hp: 1000, maxHp: 1000, exp: 700, minGold: 70, maxGold: 180, color: "#16a34a", loot: ["Dragon Ham", "Dragon Shield"] },
-          { id: "dragon_lord", name: "Dragon Lord", hp: 1900, maxHp: 1900, exp: 2100, minGold: 150, maxGold: 350, color: "#dc2626", loot: ["Dragon Scale Mail", "Royal Helmet"] }
+          { id: "dragon", name: "Dragon", hp: 1000, maxHp: 1000, exp: 700, minGold: 70, maxGold: 180, spriteKey: "dragon", loot: ["Dragon Ham", "Dragon Shield"] },
+          { id: "dragon_lord", name: "Dragon Lord", hp: 1900, maxHp: 1900, exp: 2100, minGold: 150, maxGold: 350, spriteKey: "dragon_lord", loot: ["Dragon Scale Mail", "Royal Helmet"] }
         ]
       },
       demon_forge: {
         name: "Demon Forge",
         minLvl: 130,
         monsters: [
-          { id: "demon", name: "Demon", hp: 8200, maxHp: 8200, exp: 6000, minGold: 300, maxGold: 800, color: "#991b1b", loot: ["Magic Plate Armor", "Demon Shield", "Golden Legs"] },
-          { id: "behemoth", name: "Behemoth", hp: 4000, maxHp: 4000, exp: 2500, minGold: 180, maxGold: 450, color: "#78350f", loot: ["Giant Sword"] }
+          { id: "demon", name: "Demon", hp: 8200, maxHp: 8200, exp: 6000, minGold: 300, maxGold: 800, spriteKey: "demon", loot: ["Magic Plate Armor", "Demon Shield", "Golden Legs"] },
+          { id: "behemoth", name: "Behemoth", hp: 4000, maxHp: 4000, exp: 2500, minGold: 180, maxGold: 450, spriteKey: "behemoth", loot: ["Giant Sword"] }
         ]
       }
     };
 
     const ITEMS_DATABASE = {
-      "Dragon Scale Mail": { type: "armor", def: 43, value: 40000, icon: "🛡️" },
-      "Magic Plate Armor": { type: "armor", def: 47, value: 90000, icon: "🛡️" },
-      "Plate Armor": { type: "armor", def: 10, value: 400, icon: "🛡️" },
-      "Royal Helmet": { type: "helmet", arm: 9, value: 30000, icon: "👑" },
-      "Demon Shield": { type: "shield", def: 35, value: 32000, icon: "🛡️" },
-      "Dragon Shield": { type: "shield", def: 31, value: 4000, icon: "🛡️" },
-      "Golden Legs": { type: "legs", arm: 9, value: 80000, icon: "👖" },
-      "Giant Sword": { type: "weapon", atk: 46, value: 17000, icon: "⚔️" },
-      "Small Emerald": { type: "gem", value: 250, icon: "💎" },
-      "Small Amethyst": { type: "gem", value: 200, icon: "💎" },
-      "Ancient Amulet": { type: "amulet", value: 600, icon: "📿" },
-      "Scarab Pincer": { type: "creature_product", value: 280, icon: "🦂" },
-      "Dragon Ham": { type: "food", value: 25, icon: "🍖" },
-      "Meat": { type: "food", value: 5, icon: "🥩" }
+      "Dragon Scale Mail": { type: "armor", def: 43, value: 40000, iconSVG: '<svg viewBox="0 0 32 32"><path d="M10 6 L16 4 L22 6 L25 14 L21 27 L11 27 L7 14 Z" fill="#15803d" stroke="#4ade80" stroke-width="1.5"/></svg>' },
+      "Magic Plate Armor": { type: "armor", def: 47, value: 90000, iconSVG: '<svg viewBox="0 0 32 32"><path d="M10 6 L16 4 L22 6 L25 14 L21 27 L11 27 L7 14 Z" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.5"/></svg>' },
+      "Plate Armor": { type: "armor", def: 10, value: 400, iconSVG: '<svg viewBox="0 0 32 32"><path d="M10 6 L16 4 L22 6 L25 14 L21 27 L11 27 L7 14 Z" fill="#475569" stroke="#94a3b8" stroke-width="1.5"/></svg>' },
+      "Royal Helmet": { type: "helmet", arm: 9, value: 30000, iconSVG: '<svg viewBox="0 0 32 32"><path d="M7 16 C7 7 25 7 25 16 L25 24 L21 21 L16 23 L11 21 L7 24 Z" fill="#d97706" stroke="#fbbf24" stroke-width="1.5"/></svg>' },
+      "Demon Shield": { type: "shield", def: 35, value: 32000, iconSVG: '<svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="11" fill="#7f1d1d" stroke="#f87171" stroke-width="2"/><circle cx="16" cy="16" r="4" fill="#000"/></svg>' },
+      "Dragon Shield": { type: "shield", def: 31, value: 4000, iconSVG: '<svg viewBox="0 0 32 32"><polygon points="16,4 27,10 23,26 16,30 9,26 5,10" fill="#15803d" stroke="#4ade80" stroke-width="1.5"/></svg>' },
+      "Golden Legs": { type: "legs", arm: 9, value: 80000, iconSVG: '<svg viewBox="0 0 32 32"><path d="M8 6 L24 6 L23 26 L18 26 L16 14 L14 26 L9 26 Z" fill="#eab308" stroke="#fef08a" stroke-width="1.5"/></svg>' },
+      "Giant Sword": { type: "weapon", atk: 46, value: 17000, iconSVG: '<svg viewBox="0 0 32 32"><line x1="6" y1="26" x2="24" y2="8" stroke="#cbd5e1" stroke-width="4"/><line x1="4" y1="28" x2="10" y2="22" stroke="#b45309" stroke-width="2"/></svg>' },
+      "Small Emerald": { type: "gem", value: 250, iconSVG: '<svg viewBox="0 0 32 32"><polygon points="16,6 26,16 16,26 6,16" fill="#22c55e" stroke="#15803d"/></svg>' },
+      "Small Amethyst": { type: "gem", value: 200, iconSVG: '<svg viewBox="0 0 32 32"><polygon points="16,6 26,16 16,26 6,16" fill="#a855f7" stroke="#6b21a8"/></svg>' },
+      "Ancient Amulet": { type: "amulet", value: 600, iconSVG: '<svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="8" fill="none" stroke="#eab308" stroke-width="3"/><circle cx="16" cy="24" r="3" fill="#3b82f6"/></svg>' },
+      "Scarab Pincer": { type: "creature_product", value: 280, iconSVG: '<svg viewBox="0 0 32 32"><path d="M10 24 Q6 10 18 8 Q26 14 18 20" fill="none" stroke="#d97706" stroke-width="3"/></svg>' },
+      "Dragon Ham": { type: "food", value: 25, iconSVG: '<svg viewBox="0 0 32 32"><ellipse cx="16" cy="16" rx="9" ry="6" fill="#b91c1c" stroke="#7f1d1d" stroke-width="2"/><circle cx="23" cy="16" r="2" fill="#fff"/></svg>' }
     };
 
     let gold = 1258892;
@@ -372,6 +447,7 @@
 
     let activeMonsters = [];
     let floatingTexts = [];
+    let spellEffects = [];
 
     function setHunt(huntKey) {
       currentHuntKey = huntKey;
@@ -389,8 +465,9 @@
         const template = hunt.monsters[Math.floor(Math.random() * hunt.monsters.length)];
         activeMonsters.push({
           ...template,
-          x: (Math.random() - 0.5) * 220,
-          y: (Math.random() - 0.5) * 160
+          x: (Math.random() - 0.5) * 260,
+          y: (Math.random() - 0.5) * 180,
+          bobOffset: Math.random() * 6
         });
       }
     }
@@ -405,6 +482,7 @@
       log.scrollTop = log.scrollHeight;
     }
 
+    // Auto Battle
     setInterval(() => {
       if (activeMonsters.length === 0) {
         spawnMonsters();
@@ -415,10 +493,20 @@
       const dmg = Math.floor(player.minDmg + Math.random() * (player.maxDmg - player.minDmg));
       target.hp -= dmg;
 
+      // Efeito de projétil/hit de magia
+      spellEffects.push({
+        x: canvas.width / 2 + target.x,
+        y: canvas.height / 2 + target.y,
+        radius: 6,
+        maxRadius: 22,
+        color: "#f59e0b",
+        alpha: 1
+      });
+
       floatingTexts.push({
         text: `-${dmg}`,
         x: canvas.width / 2 + target.x,
-        y: canvas.height / 2 + target.y - 15,
+        y: canvas.height / 2 + target.y - 25,
         color: "#f87171",
         life: 25
       });
@@ -433,7 +521,7 @@
         profitSession += droppedGold;
         document.getElementById('goldVal').innerText = gold.toLocaleString('pt-BR');
 
-        if (target.loot && target.loot.length > 0 && Math.random() < 0.4) {
+        if (target.loot && target.loot.length > 0 && Math.random() < 0.45) {
           const dropItem = target.loot[Math.floor(Math.random() * target.loot.length)];
           if (backpack.length < 20) {
             backpack.push(dropItem);
@@ -447,7 +535,7 @@
         floatingTexts.push({
           text: `+${target.exp} EXP`,
           x: canvas.width / 2 + target.x,
-          y: canvas.height / 2 + target.y - 35,
+          y: canvas.height / 2 + target.y - 45,
           color: "#ffffff",
           life: 35
         });
@@ -479,39 +567,73 @@
         const slot = document.createElement('div');
         slot.className = 'bp-slot';
         if (backpack[i]) {
-          const itemInfo = ITEMS_DATABASE[backpack[i]] || { icon: '📦' };
-          slot.innerText = `${itemInfo.icon}\n${backpack[i]}`;
+          const itemInfo = ITEMS_DATABASE[backpack[i]] || { iconSVG: '<svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="10" fill="#64748b"/></svg>' };
+          slot.innerHTML = `
+            <div style="width:24px; height:24px;">${itemInfo.iconSVG}</div>
+            <div style="color:#d1d5db; font-size:8px; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:50px;">${backpack[i]}</div>
+          `;
           slot.title = `${backpack[i]} (Valor: ${itemInfo.value || 0} gps)`;
         }
         grid.appendChild(slot);
       }
     }
 
+    // Loop de Renderização
+    let tick = 0;
     function render() {
+      tick += 0.05;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const cx = canvas.width / 2;
       const cy = canvas.height / 2;
 
-      ctx.fillStyle = "#3b82f6";
-      ctx.fillRect(cx - 16, cy - 16, 32, 32);
+      // Desenhar Paladino com Sprite
+      const playerBob = Math.sin(tick * 2) * 2;
+      if (SPRITES.player.complete) {
+        ctx.drawImage(SPRITES.player, cx - 18, cy - 18 + playerBob, 36, 36);
+      }
       ctx.fillStyle = "#ffd700";
       ctx.font = "bold 11px sans-serif";
-      ctx.fillText("Paladin", cx - 18, cy - 22);
+      ctx.fillText("Paladin", cx - 18, cy - 24 + playerBob);
 
+      // Desenhar Criaturas
       activeMonsters.forEach(m => {
-        ctx.fillStyle = m.color;
-        ctx.fillRect(cx + m.x - 14, cy + m.y - 14, 28, 28);
+        const sprite = SPRITES[m.spriteKey];
+        const mBob = Math.sin(tick * 2 + m.bobOffset) * 2;
+        const w = (m.spriteKey === 'ancient_scarab' || m.spriteKey === 'dragon') ? 44 : (m.spriteKey === 'dragon_lord' || m.spriteKey === 'demon' || m.spriteKey === 'behemoth') ? 52 : 36;
+        const h = w;
 
+        if (sprite && sprite.complete) {
+          ctx.drawImage(sprite, cx + m.x - w / 2, cy + m.y - h / 2 + mBob, w, h);
+        }
+
+        // Barra de Vida Retro Tibia
         ctx.fillStyle = "#000";
-        ctx.fillRect(cx + m.x - 14, cy + m.y - 20, 28, 4);
+        ctx.fillRect(cx + m.x - 18, cy + m.y - h / 2 - 10 + mBob, 36, 5);
         ctx.fillStyle = "#22c55e";
-        ctx.fillRect(cx + m.x - 14, cy + m.y - 20, (Math.max(0, m.hp) / m.maxHp) * 28, 4);
+        ctx.fillRect(cx + m.x - 17, cy + m.y - h / 2 - 9 + mBob, (Math.max(0, m.hp) / m.maxHp) * 34, 3);
 
         ctx.fillStyle = "#fff";
-        ctx.font = "9px sans-serif";
-        ctx.fillText(m.name, cx + m.x - 14, cy + m.y - 24);
+        ctx.font = "bold 9px sans-serif";
+        ctx.fillText(m.name, cx + m.x - 16, cy + m.y - h / 2 - 13 + mBob);
       });
 
+      // Efeitos de Magia / Explosões
+      for (let i = spellEffects.length - 1; i >= 0; i--) {
+        const sp = spellEffects[i];
+        ctx.save();
+        ctx.globalAlpha = sp.alpha;
+        ctx.beginPath();
+        ctx.arc(sp.x, sp.y, sp.radius, 0, Math.PI * 2);
+        ctx.fillStyle = sp.color;
+        ctx.fill();
+        ctx.restore();
+
+        sp.radius += 2.2;
+        sp.alpha -= 0.08;
+        if (sp.alpha <= 0) spellEffects.splice(i, 1);
+      }
+
+      // Textos Flutuantes
       for (let i = floatingTexts.length - 1; i >= 0; i--) {
         const ft = floatingTexts[i];
         ctx.fillStyle = ft.color;
